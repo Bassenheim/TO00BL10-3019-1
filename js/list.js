@@ -30,12 +30,19 @@ document.addEventListener('DOMContentLoaded', () => {
             taskInput.style.borderWidth = '2px';
             return;
         }
+        if (listaTeksti.length > 100) {
+            errorMessage.textContent = 'must be shorter than 100 characters';
+            taskInput.style.borderColor = 'red';
+            taskInput.style.borderWidth = '2px';
+            return;
+        }
         if (!tarkastaUTF8(listaTeksti)) {
             errorMessage.textContent = 'contains invalid characters';
             taskInput.style.borderColor = 'red';
             taskInput.style.borderWidth = '2px';
             return;
         }
+
         errorMessage.textContent = '';
         
         const task = { text: listaTeksti, done: false };
@@ -48,6 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
         displayTasks();
     }
 
+    taskInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            addTask();
+        }
+    });
+
     function displayTasks() {
         todoList.innerHTML = '';
         const selectedFilter = filter.value;
@@ -59,25 +72,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const taskItem = document.createElement('div');
-            taskItem.classList.add('task-item');
+            taskItem.classList.add('listtaskItem');
 
             if (task.done) {
                 taskItem.classList.add('completed');
             }
 
             taskItem.innerHTML = `
-                <input type="checkbox" class="task-checkbox" ${task.done ? 'checked' : ''}>
-                <span class="task-text">${task.text}</span>
-                <button class="delete-button">X</button>
+                <input type="checkbox" class="taskCheckbox" ${task.done ? 'checked' : ''}>
+                <span class="taskText">${task.text}</span>
+                <button class="deleteButton">X</button>
             `;
 
-            taskItem.querySelector('.task-checkbox').addEventListener('change', () => {
+            taskItem.querySelector('.taskCheckbox').addEventListener('change', () => {
                 task.done = !task.done;
                 saveTasks();
                 displayTasks();
             });
 
-            taskItem.querySelector('.delete-button').addEventListener('click', () => {
+            taskItem.querySelector('.deleteButton').addEventListener('click', () => {
                 tasks.splice(index, 1);
                 saveTasks();
                 displayTasks();
@@ -115,4 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const pattern = /^[A-Za-z0-9\såäöÅÄÖ]*$/;
         return pattern.test(input);
     }
+
+
+
 });
