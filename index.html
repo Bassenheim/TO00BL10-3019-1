@@ -62,9 +62,22 @@
                     <option value="vacation">Vacation</option>
                 </select>
                 <input type="text" id="comments" placeholder="Comments here">
-                <button type="submit" id="tallennaTiedot">Update working hours</button>
+                <button type="submit" id="tallennaTiedot">Update records</button>
             </form>
             <div id="virheMessage"></div>
+            <br>
+            <select id="aktiviteettiFiltteri">
+                <option value="all">All entries</option>
+                <option value="comment">Comment</option>
+                <option value="lunch">Lunch</option>
+                <option value="outoftheoffice">Out of the Office</option>
+                <option value="vacation">Vacation</option>
+              </select>
+            <br>
+            <div id="aikaYht">
+                <p>Total Time: <span id="totalTime">00:00</span></p>
+                <button id="tyhjennaTiedot">Clear All</button>
+            </div>
             <br>
             <div id="recordedInfo"></div>
 
