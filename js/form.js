@@ -12,11 +12,20 @@ const totalTimeElement = document.getElementById('totalTime');
 const clearAllButton = document.getElementById('tyhjennaTiedot');
 const activityFilter = document.getElementById('aktiviteettiFiltteri');
 
+const kaikkiYht = parseInt(localStorage.getItem('kaikkiYht')) || 0;
+const totalMinutes = parseInt(localStorage.getItem('totalMinutes')) || 0;
+
 let aikaPankki = 0;
 if (localStorage.getItem('totalTime')) {
     aikaPankki = parseInt(localStorage.getItem('totalTime'), 10);
 } else {
-    aikaPankki = laskeYhtaika(storedRecords);
+    aikaPankki = 0;
+    console.log('aikaPankki set to 0 as it was not found in localStorage');
+}
+if (activityFilter.value === 'all') {
+    const records = JSON.parse(localStorage.getItem('records')) || [];
+    const totalTime = laskeYhtaika(records);
+    totalTimeElement.textContent = totalTime;
 }
 
 let diffMinutes;
@@ -110,6 +119,15 @@ form.addEventListener('submit', function (e) {
     let records = JSON.parse(localStorage.getItem('records')) || [];
     records.push(record);
     localStorage.setItem('records', JSON.stringify(records));
+
+    const kaikkiYht = records.reduce((total, record) => {
+        const start = new Date(`2000-01-01T${record.startTime}`);
+        const end = new Date(`2000-01-01T${record.endTime}`);
+        const diffMinutes = (end - start) / 60000;
+        return total + diffMinutes;
+    }, 0);
+
+    localStorage.setItem('kaikkiYht', kaikkiYht);
     
     tulostaTiedot(record);
     tulostaYhtaika(records);
@@ -149,7 +167,7 @@ function laskeAika(startTime, endTime) {
 }
 
 function laskeYhtaika(records) {
-    if (!records) {
+    if (!records || !Array.isArray(records) || records.length === 0) {
         return '00:00';
     }
     let totalMinutes = 0;
@@ -213,13 +231,25 @@ function filterActivities(selectedActivity) {
         filteredRecords = records.filter(record => selectedActivity === record.activity);
     }
 
+    const totalTime = laskeYhtaika(filteredRecords);
+    const totalMinutesAllActivities = calculateTotalMinutes(filteredRecords);
+    const percentage = (totalMinutesAllActivities / kaikkiYht) * 100;
+
+    totalTimeElement.textContent = `${totalTime} (${percentage.toFixed(2)}%)`;
+    localStorage.setItem('totalTime', totalTime);
+
     for (const record of filteredRecords) {
         tulostaTiedot(record);
     }
-
-    const totalTimeElement = document.getElementById('totalTime');
-    const totalTime = laskeYhtaika(filteredRecords);
-    totalTimeElement.textContent = totalTime;
-    localStorage.setItem('totalTime', totalTime);
+}
+function calculateTotalMinutes(records) {
+    let totalMinutes = 0;
+    for (const record of records) {
+        const start = new Date(`2000-01-01T${record.startTime}`);
+        const end = new Date(`2000-01-01T${record.endTime}`);
+        const diffMinutes = (end - start) / 60000;
+        totalMinutes += diffMinutes;
+    }
+    return totalMinutes;
 }
 
