@@ -47,8 +47,23 @@
         <script src="js/list.js" defer></script>
 
         <div class="osio" id="smartForm">
-            <h1 class="otsikko">smartForm</h1>
+            <h1 class="otsikko">smartForm (work hours calculator)</h1>
             <br>
+            <form id="tyoajanSeuranta">
+                <label for="aloitusAika">Start Time:</label>
+                <input type="time" id="aloitusAika" required>
+                <label for="lopetusAika">End Time:</label>
+                <input type="time" id="lopetusAika" required>
+                <label for="aktiviteetti">Activity:</label>
+                <select id="aktiviteetti">
+                    <option value="comment">Comment</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="outoftheoffice">Out of the Office</option>
+                    <option value="vacation">Vacation</option>
+                </select>
+                <input type="text" id="comments" placeholder="Comments here">
+                <button type="submit">Update working hours</button>
+            </form>
 
         </div>
         <script src="js/form.js" defer></script>
