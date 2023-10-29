@@ -1,5 +1,3 @@
-//todoList script
-
 document.addEventListener('DOMContentLoaded', () => {
     const taskInput = document.getElementById('listaTehtava');
     const addTaskButton = document.getElementById('listaLisaa');
@@ -128,7 +126,5 @@ document.addEventListener('DOMContentLoaded', () => {
         const pattern = /^[A-Za-z0-9\såäöÅÄÖ]*$/;
         return pattern.test(input);
     }
-
-
 
 });
