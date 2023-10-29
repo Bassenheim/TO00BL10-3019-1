@@ -40,3 +40,7 @@
     height: 85%;
     padding: 10px;
 }
+
+#listaTehtava {
+    border: 1px solid #ccc;
+}

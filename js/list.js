@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const todoList = document.getElementById('listaLista');
     const filter = document.getElementById('listaFiltteri');
     const clearCompletedButton = document.getElementById('listaTyhjenna');
+    const clearAllButton = document.getElementById('listaTyhjennaKaikki');
     const counter = document.getElementById('listaLaskin');
     
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -19,10 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const listaTeksti = taskInput.value.trim();
         if (listaTeksti === '') {
             errorMessage.textContent = 'cannot be empty';
+            taskInput.style.borderColor = 'red';
+            taskInput.style.borderWidth = '2px';
+            return;
+        }
+        if (listaTeksti.length < 3) {
+            errorMessage.textContent = 'must be longer than 3 characters';
+            taskInput.style.borderColor = 'red';
+            taskInput.style.borderWidth = '2px';
             return;
         }
         if (!tarkastaUTF8(listaTeksti)) {
             errorMessage.textContent = 'contains invalid characters';
+            taskInput.style.borderColor = 'red';
+            taskInput.style.borderWidth = '2px';
             return;
         }
         errorMessage.textContent = '';
@@ -32,6 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
         saveTasks();
         
         taskInput.value = '';
+        taskInput.style.borderColor = '';
+        taskInput.style.borderWidth = '';
         displayTasks();
     }
 
@@ -90,10 +103,16 @@ document.addEventListener('DOMContentLoaded', () => {
         displayTasks();
     });
 
+    clearAllButton.addEventListener('click', () => {
+        tasks = [];
+        saveTasks();
+        displayTasks();
+    });
+
     displayTasks();
     
     function tarkastaUTF8(input) {
-        const pattern = /^[\x00-\x7F]*$/;
+        const pattern = /^[A-Za-z0-9\såäöÅÄÖ]*$/;
         return pattern.test(input);
     }
 });
