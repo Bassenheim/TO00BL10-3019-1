@@ -14,17 +14,44 @@
             <ul class="linkkivalikko">
                 <li><a href="#todoList">Todo-list</a></li>
                 <li><a href="#smartForm">Smart Form</a></li>
+            </ul>
         </div>
 
         <div class="osio" id="todoList">
             <h1 class="otsikko">todoList</h1>
             <br>
+            <div id="input-container">
+                <input id="listaTehtava" type="text" placeholder="Enter a task">
+                <button id="listaLisaa">Add</button>
+            </div>
+            <div id="virheViesti"></div>
+            <br>
+            <div id="listaLista"> <!--Listatut esineet tähän-->
+              
+            </div>
+            <br>
+            <div id="options">
+                <label>Show:
+                    <select id="listaFiltteri">
+                        <option value="all">All</option>
+                        <option value="active">Active</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </label>
+                <button id="listaTyhjenna">Clear Completed</button>
+            </div>
+            <br>
+            <div id="listaLaskin">0 items left</div>
+        </div>
+        <script src="js/list.js"></script>
 
         <div class="osio" id="smartForm">
             <h1 class="otsikko">smartForm</h1>
             <br>
 
         </div>
+        <script src="js/form.js"></script>
+
     </div>
 </body>
 </html>
