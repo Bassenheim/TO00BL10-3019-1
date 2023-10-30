@@ -233,7 +233,7 @@ function filterActivities(selectedActivity) {
 
     const totalTime = laskeYhtaika(filteredRecords);
     const totalMinutesAllActivities = calculateTotalMinutes(filteredRecords);
-    const percentage = (totalMinutesAllActivities / kaikkiYht) * 100;
+    const percentage = kaikkiYht !== 0 ? (totalMinutesAllActivities / kaikkiYht) * 100 : 0;
 
     totalTimeElement.textContent = `${totalTime} (${percentage.toFixed(2)}%)`;
     localStorage.setItem('totalTime', totalTime);
